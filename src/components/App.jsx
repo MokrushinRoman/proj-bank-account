@@ -3,13 +3,17 @@ import { SharedLayout } from './SharedLayout/SharedLayout';
 import ConvertPage from 'pages/ConvertPage/ConvertPage';
 import RatePage from 'pages/RatePage/RatePage';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCurrency } from 'redux/operations';
+import { selectBaseCurrency } from 'redux/selectors';
 
 export const App = () => {
   const dispatch = useDispatch();
-
+  const baseCurrency = useSelector(selectBaseCurrency);
   useEffect(() => {
+    if (baseCurrency) {
+      return;
+    }
     function success(pos) {
       const crd = pos.coords;
       dispatch(getCurrency(crd));
@@ -20,7 +24,7 @@ export const App = () => {
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
-  }, [dispatch]);
+  }, [baseCurrency, dispatch]);
 
   return (
     <Routes>
