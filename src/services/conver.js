@@ -14,4 +14,10 @@ export function exchangeCurrency({ to, from, amount }) {
     `https://api.apilayer.com/exchangerates_data/convert?to=${to}&from=${from}&amount=${amount}`,
     requestOptions
   ).then(response => response.json());
-}
+};
+
+export function latest(base) {
+  return fetch(`https://api.apilayer.com/exchangerates_data/latest?symbols=usd,eur,jpy,gbp&base=${base}`,
+  requestOptions
+).then(response => response.json());
+};

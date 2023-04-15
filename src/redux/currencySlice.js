@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCurrency, convert } from './operations';
+import { getCurrency, convert, rates } from './operations';
 
 const currencySlice = createSlice({
   name: 'currency',
-  initialState: { baseCurrency: '', changeResult: 0, isLoading: false },
+  initialState: { baseCurrency: '', changeResult: 0, isLoading: false, rates: [] },
   reducers: {
     addBaseCurrency(state, { payload }) {
       state.baseCurrency = payload;
@@ -20,6 +20,8 @@ const currencySlice = createSlice({
       .addCase(convert.fulfilled, (state, { payload }) => {
         state.changeResult = payload;
         state.isLoading = false;
+      }).addCase(rates.fulfilled, (state, { payload }) => {
+        state.rates = payload;
       }),
 });
 

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrency } from 'redux/operations';
 import { selectBaseCurrency } from 'redux/selectors';
+import { addBaseCurrency } from 'redux/currencySlice';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const App = () => {
     }
 
     function error(err) {
+      dispatch(addBaseCurrency('usd'));
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 

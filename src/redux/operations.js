@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getCurrentPosition } from 'services/location';
-import { exchangeCurrency } from 'services/conver';
+import { exchangeCurrency, latest } from 'services/conver';
 
 export const getCurrency = createAsyncThunk(
   'currency/fetchBaseCurrency',
@@ -24,3 +24,16 @@ export const convert = createAsyncThunk(
     } catch (error) {}
   }
 );
+
+export const rates = createAsyncThunk(
+  'currency/rates',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const base = state.currency.baseCurrency;
+    try {
+      const data = await latest(base);
+      return data.rates;
+    } catch (error) {
+      return thunkAPI.fulfillWithValue(error)
+    }
+})
